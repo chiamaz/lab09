@@ -47,10 +47,16 @@ public class BadIOGUI {
         //frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //01.01
         final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         frame.getContentPane().add(panel, BorderLayout.CENTER);
         panel.add(write);
+
+        //01.02
+        final JButton read = new JButton("read from file");
+        panel.add(read);
+
         /*
          * Handlers
          */
@@ -70,6 +76,13 @@ public class BadIOGUI {
                     JOptionPane.showMessageDialog(frame, e, "Error", JOptionPane.ERROR_MESSAGE);
                     e.printStackTrace(); // NOPMD: allowed as this is just an exercise
                 }
+            }
+        });
+
+        read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent ignored){
+                System.out.println("you should read this beautiful string");
             }
         });
     }
