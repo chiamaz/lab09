@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
 
@@ -80,9 +82,17 @@ public class BadIOGUI {
         });
 
         read.addActionListener(new ActionListener() {
+            private final Path path = Paths.get(PATH);
             @Override
-            public void actionPerformed(final ActionEvent ignored){
-                System.out.println("you should read this beautiful string");
+            public void actionPerformed(final ActionEvent ignored) {
+                try {
+                    final List<String> list = Files.readAllLines(path, StandardCharsets.UTF_8); 
+                    for (final String string : list) {
+                        System.out.println(string); //NOPMD
+                    }
+                } catch (final IOException e) {
+                    throw new IllegalArgumentException("Cannot read all lines", e);
+                }
             }
         });
     }
