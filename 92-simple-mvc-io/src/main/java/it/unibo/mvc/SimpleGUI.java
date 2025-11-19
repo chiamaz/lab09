@@ -9,10 +9,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * A very simple program using a graphical interface.
@@ -20,24 +16,20 @@ import java.nio.file.Paths;
  */
 public final class SimpleGUI {
 
-    private final JFrame frame = new JFrame();
-    private static final int PROPORTION = 5;
-    private static final String PATH = System.getProperty("user.home")
-            + File.separator
-            + "output" + ".txt";
-    
+    private final JFrame frame = new JFrame("My First Java Graphical Interface");
+    private static final int PROPORTION = 5;    
 
-    public SimpleGUI(final Controller controller){
+    public SimpleGUI(final Controller controller) {
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         frame.getContentPane().add(panel, BorderLayout.CENTER);
         final JTextArea textArea = new JTextArea();
-        panel.add(textArea);
+        panel.add(textArea, BorderLayout.CENTER);
         final JButton save = new JButton("Save");
         panel.add(save, BorderLayout.SOUTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        save.addActionListener (new ActionListener() {
+        save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent ignored) {
                 controller.writeString(textArea.getText());
@@ -64,6 +56,7 @@ public final class SimpleGUI {
     }
 
     public static void main(String[] args) {
-        new SimpleGUI(new Controller(new File(PATH))).display();
+
+        new SimpleGUI(new Controller()).display();
     }
 }

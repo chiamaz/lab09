@@ -16,7 +16,7 @@ A String representing the local user home folder can be accessed using `System.g
 The separator symbol (/ on *nix, \ on Windows) can be obtained as String through the method `System.getProperty("file.separator")`.
 The combined use of those methods leads to a software that runs correctly on every platform.
 
-Once the `Controller` is done, implement `SimpleGUI` class in such a way that:
+Once the `Controller` is done, implement `SimpleGUI` class in such a way that::
 
 1. It has a main method that starts the graphical application
 2. In its constructor, sets up the whole view
