@@ -2,6 +2,7 @@ package it.unibo.mvc;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,11 +13,10 @@ import java.nio.file.Paths;
 public class Controller {
 
     private File file;
+    private final String FILE_NAME = System.getProperty("user.home") + System.getProperty("file.separator") +"output.txt";
+    private final Path path = Paths.get(FILE_NAME);
     
     public Controller() { 
-        final String FILE_NAME = 
-        System.getProperty("user.home") + System.getProperty("file.separator") +"output.txt";
-        final Path path = Paths.get(FILE_NAME);
         this.file = path.toFile();
     }
 
@@ -34,9 +34,9 @@ public class Controller {
 
     public void writeString(String string) {
         try (
-            final FileOutputStream output = new FileOutputStream(this.file);
+            final FileWriter output = new FileWriter(file);
         ) {
-            output.write(string.getBytes());
+            output.write(string);
         } catch (final IOException e) {
             throw new IllegalArgumentException("Impossible writing on file", e);
         }
