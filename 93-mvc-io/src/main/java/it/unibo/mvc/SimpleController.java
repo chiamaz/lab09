@@ -3,20 +3,21 @@ package it.unibo.mvc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import static java.lang.System.out;
 
 /**
- * 
+ * SimpleController implements Controller.
  *
  */
 public final class SimpleController implements Controller {
 
-    private List<String> list = new ArrayList<>();
+    private final List<String> list = new ArrayList<>();
     private String string;
 
     @Override
-    public void setStringToPrint(String string) {
-        this.string = Objects.requireNonNull(string);
-        list.add(string);
+    public void setStringToPrint(final String stringToSet) {
+        this.string = Objects.requireNonNull(stringToSet);
+        list.add(this.string);
     }
 
     @Override
@@ -26,16 +27,14 @@ public final class SimpleController implements Controller {
 
     @Override
     public List<String> getHistory() {
-        return this.list;
+        return new ArrayList<>(this.list);
     }
 
     @Override
-    public void printString() throws IllegalStateException {
-        try {
-            System.out.println(string);
-        } catch (final Exception e) {
-            throw new IllegalStateException();
-        }
+    public void printString() {
+            if (this.string == null) {
+                throw new IllegalStateException();
+            }
+            out.println(this.string);
     }
-
 }

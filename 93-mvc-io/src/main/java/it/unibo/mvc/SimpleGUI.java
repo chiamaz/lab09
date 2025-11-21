@@ -20,7 +20,15 @@ public final class SimpleGUI {
     private static final int PROPORTION = 5;
 
     private final JFrame frame = new JFrame();
-    public SimpleGUI(SimpleController controller){
+    private final Controller controller;
+
+    /**
+     * Graphical application.
+     * 
+     * @param controller the controller attached to SimpleGUI
+     */
+    public SimpleGUI(final SimpleController controller) {
+        this.controller = controller;
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         frame.add(panel, BorderLayout.CENTER);
@@ -35,14 +43,14 @@ public final class SimpleGUI {
         final JTextArea textA = new JTextArea(); 
         textA.setEditable(false);
         panel.add(textA, BorderLayout.CENTER);
-        
+
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new BorderLayout());
         panel.add(panel2, BorderLayout.SOUTH);
-        
+
         final JButton print = new JButton("Print");
         final JButton showHistory = new JButton("Show History");
-        
+
         panel2.add(print, BorderLayout.NORTH);
         panel2.add(showHistory, BorderLayout.SOUTH);
         frame.setContentPane(panel);
@@ -51,18 +59,19 @@ public final class SimpleGUI {
         print.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent ignored) {
-                controller.setStringToPrint(textF.getText());
-                controller.printString();
+                SimpleGUI.this.controller.setStringToPrint(textF.getText());
+                SimpleGUI.this.controller.printString();
             }
         });
 
         showHistory.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent ignored) {
-                textA.setText(controller.getHistory().toString());
+                textA.setText(SimpleGUI.this.controller.getHistory().toString());
             }
         });
     }
+
     private void display() {
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
@@ -87,9 +96,14 @@ public final class SimpleGUI {
          */
         frame.setVisible(true);
         frame.pack();
-    }    
+    }
 
-    public static void main(String[] args) {
+    /**
+     * Starts the graphical application.
+     * 
+     * @param args String[] args
+     */
+    public static void main(final String[] args) {
         new SimpleGUI(new SimpleController()).display();
     }
 }

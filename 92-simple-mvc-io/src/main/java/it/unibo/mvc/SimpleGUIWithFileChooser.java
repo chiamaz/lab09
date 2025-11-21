@@ -5,6 +5,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
@@ -18,37 +19,64 @@ import java.awt.event.ActionListener;
  * 
  */
 public final class SimpleGUIWithFileChooser {
-    private static final int PROPORTION = 5;    
+    private static final int PROPORTION = 5;
 
     private final JFrame frame = new JFrame();
-    
-    public SimpleGUIWithFileChooser(final Controller controller){
+
+    /**
+     * Constructor used to implement the view.
+     * 
+     * @param controller the controller attached to the GUI.
+     */
+    public SimpleGUIWithFileChooser(final Controller controller) {
+        //upper panel
+        final JPanel panelN = new JPanel();
+        panelN.setLayout(new BorderLayout());
+
+        final JTextField text = new JTextField(controller.getFile().getAbsolutePath());
+        text.setEditable(false);
+        panelN.add(text, BorderLayout.CENTER);
+
+        final JButton browse = new JButton("Browse...");
+        panelN.add(browse, BorderLayout.LINE_END);
+
+        //lower panel
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        JTextField text = new JTextField(controller.getFile().getAbsolutePath());
-        text.setEditable(false);
-        final JButton browse = new JButton("Browse...");
-        frame.getContentPane().add(panel, BorderLayout.NORTH);
-        panel.add(text, BorderLayout.CENTER);
-        panel.add(browse, BorderLayout.LINE_END);
+        final JTextArea textArea = new JTextArea();
+        panel.add(textArea, BorderLayout.CENTER);
+
+        final JButton save = new JButton("Save");
+        panel.add(save, BorderLayout.SOUTH);
+
+        panel.add(panelN, BorderLayout.NORTH);
+
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent ignored) {
+                controller.writeString(textArea.getText());
+            }
+        });
 
         browse.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(final ActionEvent ignored){
+            public void actionPerformed(final ActionEvent ignored) {
                 final JFileChooser chooser = new JFileChooser();
-                if (chooser.showSaveDialog(browse) == JFileChooser.APPROVE_OPTION){
+                if (chooser.showSaveDialog(browse) == JFileChooser.APPROVE_OPTION) {
                     controller.setCurrentFile(chooser.getSelectedFile());
                     text.setText(chooser.getSelectedFile().getAbsolutePath());
-                }
-                else if (chooser.showSaveDialog(browse) == JFileChooser.CANCEL_OPTION) {
-                    //
-                }
-                else {
+                } else if (chooser.showSaveDialog(browse) == JFileChooser.CANCEL_OPTION) {
+                    return; //NOPMD
+                } else {
                     JOptionPane.showMessageDialog(frame, "error has occured");
                 }
             }
         });
+
+        frame.getContentPane().add(panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
     private void display() {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
@@ -67,7 +95,12 @@ public final class SimpleGUIWithFileChooser {
         frame.pack();
     }
 
-    public static void main(String[] args) {
+    /**
+     * Starts the graphical application.
+     * 
+     * @param args args of main metod.
+     */
+    public static void main(final String[] args) {
         new SimpleGUIWithFileChooser(new Controller()).display();
     }
 }

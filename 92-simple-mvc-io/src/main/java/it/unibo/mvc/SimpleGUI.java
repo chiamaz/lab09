@@ -16,9 +16,14 @@ import java.awt.event.ActionListener;
  */
 public final class SimpleGUI {
 
+    private static final int PROPORTION = 5;
     private final JFrame frame = new JFrame("My First Java Graphical Interface");
-    private static final int PROPORTION = 5;    
 
+    /**
+     * Constructor used to implement the view.
+     * 
+     * @param controller the controller attached to the GUI.
+     */
     public SimpleGUI(final Controller controller) {
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -55,7 +60,12 @@ public final class SimpleGUI {
         frame.pack();
     }
 
-    public static void main(String[] args) {
+    /**
+     * Starts the graphical application.
+     * 
+     * @param args args of the main metod.
+     */
+    public static void main(final String[] args) {
         new SimpleGUI(new Controller()).display();
     }
 }
