@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A very simple program using a graphical interface.
  *
@@ -27,7 +29,12 @@ public final class SimpleGUI {
      * 
      * @param controller the controller attached to SimpleGUI
      */
-    public SimpleGUI(final SimpleController controller) {
+
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = "The controller is designed to be manipulated this way."
+    )
+    public SimpleGUI(final Controller controller) {
         this.controller = controller;
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
